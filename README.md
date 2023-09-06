@@ -1,0 +1,3 @@
+Esta é primeira parte do desafio servindo de preparação para a segunda que ocorrerá no dia e horário marcados e vamos desenvolver juntos (um dev da PACTO e você) uma solução pré-definida, que deve demorar no máximo 1h.
+
+Foi Realizado no dia 05/09/2023, conforme solicitado pelo dev da Pacto Mais, Emmanoel, o desenvolvimento da aplicação **Rotinas de transação de crédito**, onde a primeira parte consiste em criar os endpoints *POST/conta*, *GET/conta/:contaId* e *POST/transacao*. A segunda parte é uma simulação de alteração repentida da primeira parte, onde tem que se criar um limite de crédito, interferindo ou não no endpoint *POST/transacao*.

@@ -23,10 +23,14 @@ public class TransacaoController {
     @PostMapping
     public Transacao create(@RequestBody Transacao transacao){
 
-        if((transacao.getTipo_operacao_id() == 3 || transacao.getTipo_operacao_id() == 4) 
-        && limiteContaService.verificarLimite(transacao)){
+        if(verificarLimiteBoolean(transacao)){
             return transacaoService.save(transacao);
         }
         return null;
+    }
+
+    private boolean verificarLimiteBoolean(Transacao transacao){
+        return (transacao.getTipo_operacao_id() == 3 || transacao.getTipo_operacao_id() == 4 || transacao.getTipo_operacao_id() == 1) 
+        && limiteContaService.verificarLimite(transacao);
     }
 }
