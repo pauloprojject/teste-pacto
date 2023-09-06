@@ -37,7 +37,8 @@ public class TransacaoController {
     }
 
     private boolean verificarLimiteBoolean(Transacao transacao) {
-        return Objects.nonNull(obterPermitidos(transacao.getTipo_operacao_id())) && limiteContaService.verificarLimite(transacao);
+        return Objects.nonNull(obterPermitidos(transacao.getTipo_operacao_id())) 
+            && limiteContaService.verificarLimite(transacao);
     }
 
     
