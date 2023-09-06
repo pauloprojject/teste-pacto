@@ -1,6 +1,11 @@
 package com.example.demo.controller;
 
+import java.util.Objects;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.Transacao;
 import com.example.demo.service.LimiteContaService;
 import com.example.demo.service.TransacaoService;
+import static com.example.demo.util.TipoOperacaoEnum.obterPermitidos;
 
 @RestController
 @RequestMapping("/transacao")
@@ -21,16 +27,18 @@ public class TransacaoController {
     private LimiteContaService limiteContaService;
 
     @PostMapping
-    public Transacao create(@RequestBody Transacao transacao){
+    public ResponseEntity create(@RequestBody Transacao transacao){
 
-        if(verificarLimiteBoolean(transacao)){
-            return transacaoService.save(transacao);
+        if (verificarLimiteBoolean(transacao)) {
+            Transacao savedTransacao = transacaoService.save(transacao);
+            return new ResponseEntity(savedTransacao, HttpStatus.CREATED);
         }
-        return null;
+        return new ResponseEntity("Transação não autorizada.", HttpStatus.BAD_REQUEST);
     }
 
-    private boolean verificarLimiteBoolean(Transacao transacao){
-        return (transacao.getTipo_operacao_id() == 3 || transacao.getTipo_operacao_id() == 4 || transacao.getTipo_operacao_id() == 1) 
-        && limiteContaService.verificarLimite(transacao);
+    private boolean verificarLimiteBoolean(Transacao transacao) {
+        return Objects.nonNull(obterPermitidos(transacao.getTipo_operacao_id())) && limiteContaService.verificarLimite(transacao);
     }
+
+    
 }
